@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Providers from "./Providers";
-import NavBar from "./components/NavBar";
-import Footer from "./components/Footer";
+import { StoreProvider } from "./StoreProvider";
+import PathnameWrapper from "./components/PathnameWrapper";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const plus_jakarta_sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-plus-jakarta-sans",
 });
 
 export const metadata: Metadata = {
@@ -27,14 +22,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Providers>
-          <NavBar />
-          <main>{children}</main>
-          <Footer />
-        </Providers>
+      <body className={`${plus_jakarta_sans.className} antialiased`}>
+        <StoreProvider>
+          <Providers>
+            <PathnameWrapper>
+              <main>{children}</main>
+            </PathnameWrapper>
+          </Providers>
+        </StoreProvider>
       </body>
     </html>
   );

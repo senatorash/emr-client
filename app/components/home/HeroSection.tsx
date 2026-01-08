@@ -15,6 +15,7 @@ const HeroSection = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: false }}
@@ -49,6 +50,7 @@ const HeroSection = () => {
 
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: false }}

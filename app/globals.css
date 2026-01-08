@@ -150,7 +150,7 @@
   --sidebar-border: 215 45% 30%;
   --sidebar-ring: 173 58% 39%;
 
-  --spacing: 0.25rem;
+  --spacing: 4px;
   /* -- */
 }
 
@@ -241,7 +241,7 @@ button {
   cursor: pointer;
 }
 
-/* @layer utilities {
+@layer utilities {
   .gradient-primary {
     background: var(--gradient-primary);
   }
@@ -278,7 +278,7 @@ button {
     @apply bg-clip-text text-transparent;
     background: var(--gradient-primary);
   }
-} */
+}
 
 /*
 @theme inline {

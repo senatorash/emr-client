@@ -15,9 +15,7 @@ const NavBar = () => {
             <div className="w-10 h-10 rounded-xl bg-linear-to-br from-primary to-primary/70 flex items-center justify-center">
               <LuHeart className="w-5 h-5 text-primary-foreground" />
             </div>
-            <span className="text-xl font-bold text-foreground">
-              MediCare EMR
-            </span>
+            <span className="text-xl font-bold text-foreground">LumorA</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
@@ -50,12 +48,12 @@ const NavBar = () => {
           <div className="flex items-center gap-2">
             <DarkModeSwitch />
             <div className="hidden md:flex items-center gap-2">
-              <Link href="/login">
+              <Link href="/signin">
                 <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-secondary hover:text-secondary-foreground h-10 px-4 py-2">
                   Sign In
                 </button>
               </Link>
-              <Link href="/login">
+              <Link href="/signin">
                 <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm hover:shadow-md active:scale-[0.98] h-10 px-4 py-2">
                   Get Started
                 </button>
@@ -103,12 +101,12 @@ const NavBar = () => {
                 Contact
               </Link>
               <div className="flex flex-col gap-2 pt-4 border-t border-border">
-                <Link href="" onClick={() => setIsMobileMenuOpen(false)}>
+                <Link href="/signin" onClick={() => setIsMobileMenuOpen(false)}>
                   <button className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-secondary hover:text-secondary-foreground h-10 w-full px-2 justify-start">
                     Sign In
                   </button>
                 </Link>
-                <Link href="" onClick={() => setIsMobileMenuOpen(false)}>
+                <Link href="/signin" onClick={() => setIsMobileMenuOpen(false)}>
                   <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm hover:shadow-md active:scale-[0.98] h-10 w-full">
                     Get Started
                   </button>
