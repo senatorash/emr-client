@@ -22,6 +22,7 @@ const LeftPanel = () => {
     setIsLoading(true);
 
     if (!email || !password) {
+      setIsLoading(false);
       return;
     }
     try {
@@ -115,7 +116,7 @@ const LeftPanel = () => {
           <button
             type="submit"
             className="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0hero gradient-primary text-primary-foreground shadow-lg hover:shadow-xl hover:brightness-110 active:scale-[0.98] h-12 rounded-xl px-10 text-base font-semibold w-full"
-            disabled={isLoading}
+            disabled={isLoading || !email || !password}
           >
             {isLoading ? (
               <>

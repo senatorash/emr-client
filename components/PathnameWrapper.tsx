@@ -1,8 +1,8 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import NavBar from "./NavBar";
-import Footer from "./Footer";
+import NavBar from "./layouts/NavBar";
+import Footer from "./layouts/Footer";
 
 export default function PathnameWrapper({
   children,
@@ -10,8 +10,9 @@ export default function PathnameWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const hideLayout = pathname === "/signin";
+  const noHeaderFooterRoutes = ["/signin", "/dashboard", "/patients"];
 
+  const hideLayout = noHeaderFooterRoutes.includes(pathname);
   return (
     <>
       {!hideLayout && <NavBar />}

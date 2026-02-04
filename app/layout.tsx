@@ -3,7 +3,8 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Providers from "./Providers";
 import { StoreProvider } from "./StoreProvider";
-import PathnameWrapper from "./components/PathnameWrapper";
+import PathnameWrapper from "@/components/PathnameWrapper";
+import AuthBootstrap from "@/components/auth/AuthBootstrap";
 
 const plus_jakarta_sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -24,11 +25,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${plus_jakarta_sans.className} antialiased`}>
         <StoreProvider>
-          <Providers>
-            <PathnameWrapper>
-              <main>{children}</main>
-            </PathnameWrapper>
-          </Providers>
+          <AuthBootstrap>
+            <Providers>
+              <PathnameWrapper>
+                <main>{children}</main>
+              </PathnameWrapper>
+            </Providers>
+          </AuthBootstrap>
         </StoreProvider>
       </body>
     </html>

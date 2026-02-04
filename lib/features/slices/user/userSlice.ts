@@ -1,22 +1,23 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface AuthState {
-  user: any | null;
-  isAuthenticated: boolean;
-  accessToken: string | null;
-}
-
 interface SetCurrentUserPayload {
   id: string;
   role: string;
   fullName: string;
   email: string;
 }
+interface AuthState {
+  user: SetCurrentUserPayload | null;
+  isAuthenticated: boolean;
+  isHydrated: boolean;
+  accessToken: string | null;
+}
 
 const initialState: AuthState = {
   user: null,
   isAuthenticated: false,
   accessToken: null,
+  isHydrated: false,
 };
 
 export const userSlice = createSlice({
@@ -28,7 +29,7 @@ export const userSlice = createSlice({
       action: PayloadAction<{
         user?: SetCurrentUserPayload;
         accessToken?: string;
-      }>
+      }>,
     ) => {
       if (action.payload.user !== undefined) {
         state.user = action.payload.user;
@@ -39,12 +40,14 @@ export const userSlice = createSlice({
       }
 
       state.isAuthenticated = !!state.accessToken;
+      state.isHydrated = true;
     },
 
     clearCurrentUser: (state) => {
       state.user = null;
       state.isAuthenticated = false;
       state.accessToken = null;
+      state.isHydrated = true;
     },
   },
 });
