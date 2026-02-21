@@ -5,11 +5,16 @@ import DashBoardLayout from "@/components/layouts/dashboard/DashBoardLayout";
 import { useAppSelector } from "@/lib/hook";
 import { useDashBoardStatsQuery } from "@/lib/features/apis/DashBoardApis";
 import StatsCard from "@/components/layouts/dashboard/StatsCard";
+import { enrichRoleStats } from "@/helper/enrichRoleStats";
 
 const dashboard = () => {
   const { user } = useAppSelector((state) => state.userState);
-  const { data, isLoading, isError } = useDashBoardStatsQuery();
-  console.log(data);
+  const { data } = useDashBoardStatsQuery();
+
+  const enrichedStats = enrichRoleStats(
+    data?.role || user?.role || "",
+    data?.data?.stats || [],
+  );
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -28,7 +33,8 @@ const dashboard = () => {
           transition={{ duration: 0.4 }}
         >
           <h1 className="font-display text-3xl font-bold">
-            {getGreeting()}, {user?.fullName.split(" ")[0]}
+            {getGreeting()},{" "}
+            {user?.role === "doctor" ? "Dr." : user?.fullName.split(" ")[0]}
           </h1>
           <p className="mt-1 text-muted-foreground">
             Here's what's happening with your patients today.
@@ -36,19 +42,19 @@ const dashboard = () => {
         </motion.div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {/* {stats.map((stat, index) => ( */}
-          <StatsCard
-            key={data?.stats.totalPatients}
-            title={"Total Patients"}
-            value={data?.stats.totalPatients || 0}
-            // change={stat.change}
-            // changeType={stat.changeType}
-            // icon={stat.icon}
-            // iconColor={stat.iconColor}
-            // delay={index * 0.1}
-          />
-          {/* ))} */}
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+          {enrichedStats.map((stat, index) => (
+            <StatsCard
+              key={index}
+              title={stat.title}
+              value={stat.value}
+              change={stat.change}
+              changeType={stat.changeType}
+              icon={stat.icon}
+              iconColor={stat.iconColor}
+              delay={index * 0.1}
+            />
+          ))}
         </div>
 
         {/* Main Content Grid */}

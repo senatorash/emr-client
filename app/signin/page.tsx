@@ -1,25 +1,26 @@
 "use client";
 
 import { useEffect } from "react";
-import LeftPanel from "./LeftPanel";
-import RightPanel from "./RightPanel";
+import LeftPanel from "@/components/signin/LeftPanel";
+import RightPanel from "@/components/signin/RightPanel";
 import { useAppSelector } from "@/lib/hook";
 import { useRouter } from "next/navigation";
 
-const signinPage = () => {
-  const user = useAppSelector((state) => state.userState.user);
+const SigninPage = () => {
+  const { user } = useAppSelector((state) => state.userState);
   const router = useRouter();
 
   useEffect(() => {
     if (user) {
-      router.push("/dashboard");
+      router.replace("/dashboard");
     }
-  }, [user]);
+  }, [user, router]);
+
   return (
-    <section className="min-h-screen flex">
+    <section className="flex min-h-screen">
       <LeftPanel />
       <RightPanel />
     </section>
   );
 };
-export default signinPage;
+export default SigninPage;

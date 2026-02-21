@@ -26,7 +26,7 @@ export const authApis = createApi({
       },
     }),
 
-    getCurrentUser: builder.query<any, void>({
+    getCurrentUser: builder.mutation<any, void>({
       query: () => ({
         url: "auth/current-user",
         method: "GET",
@@ -39,7 +39,7 @@ export const authApis = createApi({
       },
     }),
 
-    logoutUser: builder.mutation<void, void>({
+    logoutUser: builder.mutation<{ message: string }, void>({
       query: () => ({
         url: "auth/logout",
         method: "POST",
@@ -48,6 +48,7 @@ export const authApis = createApi({
         try {
           await queryFulfilled;
           dispatch(clearCurrentUser());
+          dispatch(authApis.util.resetApiState());
         } catch (error) {}
       },
     }),
@@ -56,6 +57,6 @@ export const authApis = createApi({
 
 export const {
   useLoginUserMutation,
-  useGetCurrentUserQuery,
+  useGetCurrentUserMutation,
   useLogoutUserMutation,
 } = authApis;

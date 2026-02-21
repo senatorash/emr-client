@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   LuChevronRight,
   LuChevronLeft,
@@ -10,9 +10,18 @@ import Link from "next/link";
 import { navigationItems } from "@/components/layouts/data/navigationItems";
 import { useAppSelector } from "@/lib/hook";
 import { UserRole } from "@/types/role";
+import { useLogoutUserMutation } from "@/lib/features/apis/AuthApi";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { toast } from "sonner";
 
 const AppSideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const [logoutUser, { data, error, isSuccess, isError }] =
+    useLogoutUserMutation();
+
+  const router = useRouter();
+  const pathname = usePathname();
 
   const user = useAppSelector((state) => state.userState.user);
 
@@ -28,7 +37,22 @@ const AppSideBar = () => {
     }
   };
 
-  const items = navigationItems[userRole];
+  const logoutUserHandler = async () => {
+    try {
+      await logoutUser();
+      toast.success(data?.message);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      console.log(data);
+      toast.success(data?.message);
+      // router.replace("/signin");
+    }
+  }, [isSuccess, data, router]);
+
+  const items = navigationItems[userRole] ?? [];
   return (
     <motion.aside
       initial={false}
@@ -70,8 +94,8 @@ const AppSideBar = () => {
 
       {/* navigation */}
       <nav className="flex-1 space-y-1 p-3">
-        {items?.map((item) => {
-          const isActive = location.pathname === item.path;
+        {items.map((item) => {
+          const isActive = pathname === item.path;
           return (
             <Link
               key={item.path}
@@ -137,9 +161,10 @@ const AppSideBar = () => {
         </div>
         <button
           className={`mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg text-sm font-medium whitespace-nowrap text-sidebar-foreground/70 ring-offset-background transition-all duration-200 hover:bg-sidebar-accent hover:text-sidebar-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 ${collapsed ? "px-0" : ""} `}
+          onClick={logoutUserHandler}
         >
           <LuLogOut className="h-4 w-4" />
-          {!collapsed && <span className="ml-2">Sign Out</span>}
+          {!collapsed && <span className="ml-2 p-2">Sign Out</span>}
         </button>
       </div>
     </motion.aside>

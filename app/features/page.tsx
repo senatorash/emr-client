@@ -1,9 +1,9 @@
 "use client";
 
-import AddFeatures from "./AddFeatures";
-import CtaSection from "./CtaSection";
-import HeroSection from "./HeroSection";
-import MainSection from "./MainSection";
+import AddFeatures from "@/components/features/AddFeatures";
+import CtaSection from "@/components/features/CtaSection";
+import HeroSection from "@/components/features/HeroSection";
+import MainSection from "@/components/features/MainSection";
 
 const FeaturesPage = () => {
   return (

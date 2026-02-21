@@ -2,9 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 
 const proxy = (request: NextRequest) => {
   const session = request.cookies.get("r_t");
-  const isAuthPage = request.nextUrl.pathname.startsWith("/signin");
+  const pathname = request.nextUrl.pathname;
 
-  if (!session && !isAuthPage) {
+  const isProtectedRoute =
+    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/patients") ||
+    pathname.startsWith("/staff");
+
+  if (!session && isProtectedRoute) {
     return NextResponse.redirect(new URL("/signin", request.url));
   }
 
@@ -13,5 +18,10 @@ const proxy = (request: NextRequest) => {
 export default proxy;
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/patients/:path*"],
+  matcher: [
+    "/dashboard/:path*",
+    "/patients/:path*",
+    "/staff/:path*",
+    "/signin",
+  ],
 };

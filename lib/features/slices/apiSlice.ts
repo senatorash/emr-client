@@ -5,7 +5,12 @@ import {
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query";
 import type { RootState } from "@/lib/store";
-import { setCurrentUser, clearCurrentUser } from "./user/userSlice";
+import {
+  setCurrentUser,
+  clearCurrentUser,
+  setRefreshing,
+} from "./user/userSlice";
+// import { SerializedError } from "@reduxjs/toolkit";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -32,6 +37,7 @@ export const baseQueryWithReauth: BaseQueryFn<
 
   if (result.error && result.error?.status === 401) {
     // try to refresh the token
+    api.dispatch(setRefreshing(true));
     const refreshResult = await baseQuery(
       {
         url: "/auth/refresh-token",
@@ -42,7 +48,8 @@ export const baseQueryWithReauth: BaseQueryFn<
     );
 
     if (refreshResult.data) {
-      const newAccessToken = (refreshResult.data as any).accessToken;
+      const newAccessToken = (refreshResult.data as { accessToken: string })
+        .accessToken;
       // store the new token
       api.dispatch(
         setCurrentUser({
@@ -63,6 +70,16 @@ export const baseQueryWithReauth: BaseQueryFn<
     } else {
       api.dispatch(clearCurrentUser());
     }
+
+    api.dispatch(setRefreshing(false));
   }
+
+  //on token verification failure, log out the user and redirect to login page
+  if (result.error?.status === 403) {
+    api.dispatch(clearCurrentUser());
+
+    window.location.href = "/signin";
+  }
+
   return result;
 };

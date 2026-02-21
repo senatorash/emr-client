@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import Providers from "./Providers";
+import ThemeProviders from "./ThemeProvider";
 import { StoreProvider } from "./StoreProvider";
-import PathnameWrapper from "@/components/PathnameWrapper";
+import PathnameWrapper from "@/components/ui/PathnameWrapper";
 import AuthBootstrap from "@/components/auth/AuthBootstrap";
+import { Toaster } from "@/components/ui/sonner";
 
 const plus_jakarta_sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -26,11 +27,12 @@ export default function RootLayout({
       <body className={`${plus_jakarta_sans.className} antialiased`}>
         <StoreProvider>
           <AuthBootstrap>
-            <Providers>
+            <ThemeProviders>
               <PathnameWrapper>
                 <main>{children}</main>
+                <Toaster richColors />
               </PathnameWrapper>
-            </Providers>
+            </ThemeProviders>
           </AuthBootstrap>
         </StoreProvider>
       </body>

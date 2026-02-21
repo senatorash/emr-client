@@ -9,6 +9,7 @@ interface SetCurrentUserPayload {
 interface AuthState {
   user: SetCurrentUserPayload | null;
   isAuthenticated: boolean;
+  isRefreshing: boolean;
   isHydrated: boolean;
   accessToken: string | null;
 }
@@ -18,6 +19,7 @@ const initialState: AuthState = {
   isAuthenticated: false,
   accessToken: null,
   isHydrated: false,
+  isRefreshing: false,
 };
 
 export const userSlice = createSlice({
@@ -25,7 +27,7 @@ export const userSlice = createSlice({
   name: "userState",
   reducers: {
     setCurrentUser: (
-      state,
+      state: AuthState,
       action: PayloadAction<{
         user?: SetCurrentUserPayload;
         accessToken?: string;
@@ -43,7 +45,11 @@ export const userSlice = createSlice({
       state.isHydrated = true;
     },
 
-    clearCurrentUser: (state) => {
+    setRefreshing: (state: AuthState, action: PayloadAction<boolean>) => {
+      state.isRefreshing = action.payload;
+    },
+
+    clearCurrentUser: (state: AuthState) => {
       state.user = null;
       state.isAuthenticated = false;
       state.accessToken = null;
@@ -52,5 +58,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setCurrentUser, clearCurrentUser } = userSlice.actions;
+export const { setCurrentUser, clearCurrentUser, setRefreshing } =
+  userSlice.actions;
 export default userSlice.reducer;

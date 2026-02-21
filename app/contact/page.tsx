@@ -1,7 +1,7 @@
 "use client";
 
-import HeroSection from "./HeroSection";
-import ContactInfoCards from "./ContactInfoCards";
+import HeroSection from "@/components/contact/HeroSection";
+import ContactInfoCards from "@/components/contact/ContactInfoCards";
 
 const ContactPage = () => {
   return (

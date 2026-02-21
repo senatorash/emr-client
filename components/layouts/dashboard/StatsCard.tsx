@@ -1,12 +1,13 @@
 // import { LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
+import { IconType } from "react-icons";
 
 interface StatsCardProps {
   title: string;
   value: string | number;
-  //   change?: string;
+  change?: string;
   changeType?: "positive" | "negative" | "neutral";
-  //   icon: LucideIcon;
+  icon: IconType;
   iconColor?: string;
   delay?: number;
 }
@@ -14,9 +15,9 @@ interface StatsCardProps {
 const StatsCard = ({
   title,
   value,
-  //   change,
+  change,
   changeType = "neutral",
-  //   icon: Icon,
+  icon: Icon,
   iconColor = "bg-primary/10 text-primary",
   delay = 0,
 }: StatsCardProps) => {
@@ -31,16 +32,16 @@ const StatsCard = ({
         <div className="space-y-2">
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
           <p className="font-display text-3xl font-bold">{value}</p>
-          {/* {change && (
+          {change && (
             <p
               className={`${changeType === "positive" ? "text-success" : changeType === "negative" ? "text-destructive" : "text-muted-foreground"} text-sm font-medium`}
             >
               {change}
             </p>
-          )} */}
+          )}
         </div>
         <div className={`rounded-xl p-3 ${iconColor}`}>
-          {/* <Icon className="h-6 w-6" /> */}
+          <Icon className="h-6 w-6" />
         </div>
       </div>
     </motion.div>

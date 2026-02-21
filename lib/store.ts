@@ -2,18 +2,21 @@ import { configureStore } from "@reduxjs/toolkit";
 import { authApis } from "./features/apis/AuthApi";
 import { userSlice } from "./features/slices/user/userSlice";
 import { dashBoardApis } from "./features/apis/DashBoardApis";
+import { patientApis } from "./features/apis/PatientApi";
 
 export const store = () => {
   return configureStore({
     reducer: {
       [authApis.reducerPath]: authApis.reducer,
       [dashBoardApis.reducerPath]: dashBoardApis.reducer,
+      [patientApis.reducerPath]: patientApis.reducer,
       userState: userSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware()
         .concat(authApis.middleware)
-        .concat(dashBoardApis.middleware),
+        .concat(dashBoardApis.middleware)
+        .concat(patientApis.middleware),
   });
 };
 
