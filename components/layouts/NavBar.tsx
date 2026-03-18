@@ -5,7 +5,7 @@ import { LuHeart, LuX, LuMenu } from "react-icons/lu";
 import { useState } from "react";
 import DarkModeSwitch from "../ui/DarkModeSwitch";
 import { useAppSelector } from "@/lib/hook";
-import { navItems } from "./data/navItem";
+import { navItems } from "../../data/navItem";
 
 const NavBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

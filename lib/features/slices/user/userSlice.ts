@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface SetCurrentUserPayload {
-  id: string;
+  userId: string;
   role: string;
-  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
+  hospital?: { _id: string; name?: string };
 }
 interface AuthState {
   user: SetCurrentUserPayload | null;

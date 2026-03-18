@@ -10,7 +10,6 @@ import {
   clearCurrentUser,
   setRefreshing,
 } from "./user/userSlice";
-// import { SerializedError } from "@reduxjs/toolkit";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -77,8 +76,6 @@ export const baseQueryWithReauth: BaseQueryFn<
   //on token verification failure, log out the user and redirect to login page
   if (result.error?.status === 403) {
     api.dispatch(clearCurrentUser());
-
-    window.location.href = "/signin";
   }
 
   return result;

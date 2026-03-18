@@ -36,6 +36,7 @@ export interface CreatePatientRequest {
 
 export interface CreatePatientResponse {
   message: string;
+  success: boolean;
 }
 
 export interface GetAllPatientsResponse {
@@ -54,6 +55,17 @@ export interface GetAllPatientsResponse {
       nextOfKin: string;
       emergencyContact: string;
       patientId: string;
+      status: string;
+      familyMembers: [
+        {
+          _id: string;
+          lastName: string;
+          firstName: string;
+          phoneNumber: string;
+          relationship: string;
+          familyMemberId: string;
+        },
+      ];
     },
   ];
   pagination: {
@@ -62,4 +74,32 @@ export interface GetAllPatientsResponse {
     limit: number;
     totalPages: number;
   };
+}
+
+export interface CreateStaffRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: "doctor" | "nurse";
+}
+
+export interface CreateStaffResponse {
+  message: string;
+  success: boolean;
+}
+
+export interface CreateFamilyMemberRequest {
+  patientId: string;
+  phoneNumber: string;
+  firstName: string;
+  lastName: string;
+  dob: string;
+  email?: string;
+  relationship: string;
+  gender: string;
+}
+
+export interface CreateFamilyMemberResponse {
+  message: string;
+  success: boolean;
 }

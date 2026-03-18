@@ -10,7 +10,13 @@ export default function PathnameWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const noHeaderFooterRoutes = ["/signin", "/dashboard", "/patients", "/staff"];
+  const noHeaderFooterRoutes = [
+    "/signin",
+    "/dashboard",
+    "/patients",
+    "/staff",
+    "/records",
+  ];
 
   const hideLayout = noHeaderFooterRoutes.includes(pathname);
   return (

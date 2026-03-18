@@ -7,20 +7,20 @@ import {
   LuLogOut,
 } from "react-icons/lu";
 import Link from "next/link";
-import { navigationItems } from "@/components/layouts/data/navigationItems";
+import { navigationItems } from "@/data/navigationItems";
 import { useAppSelector } from "@/lib/hook";
 import { UserRole } from "@/types/role";
 import { useLogoutUserMutation } from "@/lib/features/apis/AuthApi";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { toast } from "sonner";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const AppSideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [logoutUser, { data, error, isSuccess, isError }] =
     useLogoutUserMutation();
 
-  const router = useRouter();
   const pathname = usePathname();
 
   const user = useAppSelector((state) => state.userState.user);
@@ -31,26 +31,18 @@ const AppSideBar = () => {
 
   const getInitials = () => {
     if (user?.role === "doctor") {
-      return `D${user?.fullName.split(" ")[0][0]}${user?.fullName.split(" ")[1][0]}`.toUpperCase();
+      return `D${user?.firstName?.charAt(0) || ""}${user?.lastName?.charAt(0) || ""}`.toUpperCase();
     } else {
-      return `${user?.fullName.split(" ")[0][0]}${user?.fullName.split(" ")[1][0]}`.toUpperCase();
+      return `${user?.firstName?.charAt(0) || ""}${user?.lastName?.charAt(0) || ""}`.toUpperCase();
     }
   };
 
   const logoutUserHandler = async () => {
     try {
-      await logoutUser();
-      toast.success(data?.message);
+      const result = await logoutUser();
+      toast.success(result?.data?.message);
     } catch (error) {}
   };
-
-  useEffect(() => {
-    if (isSuccess) {
-      console.log(data);
-      toast.success(data?.message);
-      // router.replace("/signin");
-    }
-  }, [isSuccess, data, router]);
 
   const items = navigationItems[userRole] ?? [];
   return (
@@ -85,8 +77,12 @@ const AppSideBar = () => {
               exit={{ opacity: 0, x: -10 }}
               transition={{ duration: 0.2 }}
             >
-              <h1 className="font-display text-lg font-bold">MediCare</h1>
-              <p className="text-xs text-sidebar-foreground/60">EMR System</p>
+              <h1 className="font-display text-lg font-bold capitalize">
+                {user?.hospital ? user?.hospital?.name : "MediCare"}
+              </h1>
+              <p className="text-xs text-sidebar-foreground/60">
+                Electronic Medical Record
+              </p>
             </motion.div>
           )}
         </AnimatePresence>
@@ -131,14 +127,14 @@ const AppSideBar = () => {
         <div
           className={`flex items-center gap-3 rounded-lg p-2 ${collapsed ? "justify-center" : ""} `}
         >
-          {/* <Avatar className="h-9 w-9 shrink-0">
-            <AvatarFallback className="bg-sidebar-primary text-sidebar-primary-foreground text-sm font-medium">
-              {initials}
+          <Avatar className="h-9 w-9 shrink-0">
+            <AvatarFallback className="bg-sidebar-primary text-sm font-medium text-sidebar-primary-foreground">
+              {getInitials()}
             </AvatarFallback>
-          </Avatar> */}
-          <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-teal-500 font-semibold text-white">
+          </Avatar>
+          {/* <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-teal-500 font-semibold text-white">
             {getInitials()}
-          </div>
+          </div> */}
           <AnimatePresence>
             {!collapsed && (
               <motion.div
@@ -149,8 +145,8 @@ const AppSideBar = () => {
               >
                 <p className="truncate text-sm font-medium">
                   {user?.role === "doctor"
-                    ? `Dr. ${user?.fullName}`
-                    : `${user?.fullName}`}
+                    ? `Dr. ${user?.firstName} ${user?.lastName}`
+                    : `${user?.firstName} ${user?.lastName}`}
                 </p>
                 <p className="text-xs text-sidebar-foreground/60 capitalize">
                   {user?.role}

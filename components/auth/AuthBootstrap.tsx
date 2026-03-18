@@ -1,10 +1,10 @@
 "use client";
 
 import Loading from "@/app/loading";
+// import Loading from "@/app/loading";
 import { useGetCurrentUserMutation } from "@/lib/features/apis/AuthApi";
 import { useAppSelector } from "@/lib/hook";
 import { useEffect, useState } from "react";
-import { set } from "zod";
 
 const AuthBootstrap = ({ children }: { children: React.ReactNode }) => {
   const [getCurrentUser, { isLoading }] = useGetCurrentUserMutation();

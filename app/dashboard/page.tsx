@@ -3,13 +3,16 @@
 import { motion } from "framer-motion";
 import DashBoardLayout from "@/components/layouts/dashboard/DashBoardLayout";
 import { useAppSelector } from "@/lib/hook";
-import { useDashBoardStatsQuery } from "@/lib/features/apis/DashBoardApis";
+import { useDashBoardStatsMutation } from "@/lib/features/apis/DashBoardApis";
 import StatsCard from "@/components/layouts/dashboard/StatsCard";
 import { enrichRoleStats } from "@/helper/enrichRoleStats";
+import { useEffect, useState } from "react";
+import StatsCardSkeleton from "@/components/skeleton/StatsCardSkeleton";
 
 const dashboard = () => {
+  // const [isLoading, setIsLoading] = useState(true);
   const { user } = useAppSelector((state) => state.userState);
-  const { data } = useDashBoardStatsQuery();
+  const [dashboardStats, { data, isLoading }] = useDashBoardStatsMutation();
 
   const enrichedStats = enrichRoleStats(
     data?.role || user?.role || "",
@@ -23,6 +26,10 @@ const dashboard = () => {
     return "Good evening";
   };
 
+  useEffect(() => {
+    dashboardStats();
+  }, [dashboardStats]);
+
   return (
     <DashBoardLayout>
       <div className="space-y-6">
@@ -34,7 +41,7 @@ const dashboard = () => {
         >
           <h1 className="font-display text-3xl font-bold">
             {getGreeting()},{" "}
-            {user?.role === "doctor" ? "Dr." : user?.fullName.split(" ")[0]}
+            {user?.role === "doctor" ? "Dr." : user?.firstName.split(" ")[0]}
           </h1>
           <p className="mt-1 text-muted-foreground">
             Here's what's happening with your patients today.
@@ -43,18 +50,22 @@ const dashboard = () => {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
-          {enrichedStats.map((stat, index) => (
-            <StatsCard
-              key={index}
-              title={stat.title}
-              value={stat.value}
-              change={stat.change}
-              changeType={stat.changeType}
-              icon={stat.icon}
-              iconColor={stat.iconColor}
-              delay={index * 0.1}
-            />
-          ))}
+          {isLoading
+            ? Array.from({ length: 6 }).map((_, index) => (
+                <StatsCardSkeleton key={index} />
+              ))
+            : enrichedStats.map((stat, index) => (
+                <StatsCard
+                  key={index}
+                  title={stat.title}
+                  value={stat.value}
+                  change={stat.change}
+                  changeType={stat.changeType}
+                  icon={stat.icon}
+                  iconColor={stat.iconColor}
+                  delay={index * 0.1}
+                />
+              ))}
         </div>
 
         {/* Main Content Grid */}

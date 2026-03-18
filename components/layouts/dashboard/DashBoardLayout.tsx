@@ -30,7 +30,9 @@ const DashBoardLayout = ({ children }: { children: React.ReactNode }) => {
                 <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-accent" />
               </button>
               <div className="ml-2 border-l border-border pl-4">
-                <p className="text-sm font-medium">{user?.fullName}</p>
+                <p className="text-sm font-medium">
+                  {user?.firstName} {user?.lastName}
+                </p>
                 <p className="text-xs text-muted-foreground capitalize">
                   {user?.role}
                 </p>

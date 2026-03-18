@@ -11,7 +11,8 @@ export const statVisualConfig: Record<
   string,
   Record<string, { icon: IconType; iconColor: string }>
 > = {
-  super_admin: {
+  super_admin: {},
+  admin: {
     "Total Staff": { icon: LuUserCog, iconColor: "bg-primary/10 text-primary" },
     "Total Patients": { icon: LuUser, iconColor: "bg-success/10 text-success" },
     "Medical Records": {

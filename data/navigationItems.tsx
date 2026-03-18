@@ -6,10 +6,17 @@ import {
   LuActivity,
   LuSettings,
   LuCalendar,
+  LuBuilding2,
 } from "react-icons/lu";
 
 export const navigationItems = {
   super_admin: [
+    { icon: LuLayoutDashboard, label: "Dashboard", path: "/dashboard" },
+    { icon: LuBuilding2, label: "Hospitals", path: "/hospitals" },
+    { icon: LuActivity, label: "Platform Analytics", path: "/analytics" },
+    { icon: LuSettings, label: "Settings", path: "/settings" },
+  ],
+  admin: [
     { icon: LuLayoutDashboard, label: "Dashboard", path: "/dashboard" },
     { icon: LuUserCog, label: "Staff Management", path: "/staff" },
     { icon: LuUser, label: "Patients", path: "/patients" },
