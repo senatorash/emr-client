@@ -1,6 +1,5 @@
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import { LuPlus } from "react-icons/lu";
-import { Textarea } from "../ui/textarea";
 import { useState } from "react";
 import RecordFormFields from "./RecordFormFields";
 

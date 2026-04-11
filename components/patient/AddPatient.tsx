@@ -3,8 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { LuPlus } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import { useCreatePatientMutation } from "@/lib/features/apis/PatientApi";
-import { PatientSchema } from "@/lib/schemas/patient.schema";
-import { PatientForm } from "@/lib/schemas/patient.schema";
+import { PatientSchema, PatientForm } from "@/lib/schemas/patient.schema";
 import { toast } from "sonner";
 import {
   Select,

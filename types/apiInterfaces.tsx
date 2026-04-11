@@ -103,3 +103,94 @@ export interface CreateFamilyMemberResponse {
   message: string;
   success: boolean;
 }
+
+// export interface CreateRecordRequest {
+//   patientId: string;
+//   personId: string;
+//   personModel: "patient" | "family";
+//   vitals?: {
+//     bloodPressure?: string;
+//     pulse?: string;
+//     temperature?: string;
+//     weight?: string;
+//     height?: string;
+//     oxygen?: string;
+//   };
+//   recordType:
+//     | "consultation"
+//     | "lab_result"
+//     | "imaging"
+//     | "prescription"
+//     | "notes"
+//     | "procedure"
+//     | "other";
+//   complaints: string;
+//   treatments: string;
+//   diagnosis: string;
+//   attachments?: {
+//     fileName?: string;
+//     category?:
+//       | "consultation"
+//       | "lab_result"
+//       | "imaging"
+//       | "prescription"
+//       | "other"
+//       | "clinical_doc"
+//       | "admin_doc";
+//     fileType?: string;
+//     notes?: string;
+//     file?: File;
+//   }[];
+// }
+
+export interface CreateRecordResponse {
+  message: string;
+  success: boolean;
+}
+
+export interface GetAllRecordsResponse {
+  success: boolean;
+  data: [
+    {
+      _id: string;
+      hospital: string;
+      patientId: string;
+      personId: string;
+      recordType: string;
+      status: string;
+      complaints: string;
+      diagnosis: string;
+      CreatedBy: string;
+      personModel: string;
+      attachments: [
+        {
+          fileName: string;
+          fileUrl: string;
+          fileType: string;
+          category: string;
+          uploadedBy: string;
+          uploadedAt: string;
+          _id: string;
+        },
+      ];
+      createdAt: string;
+      updatedAt: string;
+      familyMembers: [
+        {
+          _id: string;
+          lastName: string;
+          firstName: string;
+          phoneNumber: string;
+          relationship: string;
+          familyMemberId: string;
+        },
+      ];
+    },
+  ];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
