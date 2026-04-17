@@ -8,7 +8,7 @@ import {
 export const recordApis = createApi({
   reducerPath: "recordApis",
   baseQuery: baseQueryWithReauth,
-  // tagTypes: ["Records"],
+  tagTypes: ["Records"],
   endpoints: (builder) => ({
     createRecord: builder.mutation<CreateRecordResponse, FormData>({
       query: (formData) => ({
@@ -23,7 +23,7 @@ export const recordApis = createApi({
       { page: number; limit: number; search?: string }
     >({
       query: ({ page, limit, search }) => ({
-        url: `records/all?page=${page}&limit=${limit}${search ? `$search=${search}` : ""}`,
+        url: `records/all?page=${page}&limit=${limit}${search ? `&search=${search}` : ""}`,
         method: "GET",
       }),
     }),

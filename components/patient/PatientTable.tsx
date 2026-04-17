@@ -21,48 +21,6 @@ import { calculateAge } from "@/helper/calculateAge";
 import TableRowSkeleton from "../skeleton/TableRowSkeleton";
 import FamilyMembersDialog from "./FamilyMembersDialog";
 
-type Patient = {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  dob: string;
-  gender: string;
-  phone: string;
-  email: string;
-  address: string;
-  bloodGroup: string;
-  nextOfKin: string;
-  emergencyContact: string;
-  patientId: string;
-  status: string;
-  familyMembers: {
-    familyMemberId: string;
-    firstName: string;
-    lastName: string;
-    patient: string;
-    phoneNumber: string;
-    relationship: string;
-    _id: string;
-  }[];
-};
-
-type Pagination = {
-  total: number;
-  page: number;
-  limit: number;
-  totalPages?: number;
-};
-
-type PatientTableProps = {
-  patient: Patient[];
-  page: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-  pagination: Pagination;
-  isLoading: boolean;
-};
-
-type patientStatus = "active" | "inactive" | "discharged" | "deceased";
-
 const statusColors: Record<patientStatus, string> = {
   active: "bg-success/10 text-success border-success/20",
   inactive: "bg-muted text-muted-foreground border-border",

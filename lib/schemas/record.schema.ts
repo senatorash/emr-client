@@ -12,7 +12,7 @@ const ACCEPTED_TYPES = [
 export const RecordSchema = z.object({
   patientId: z.string().trim().min(1, "Patient ID is required"),
   personId: z.string().trim().min(1, "Person ID is required"),
-  personModel: z.enum(["patient", "family"], {
+  personModel: z.enum(["Patient", "FamilyMember"], {
     message: "Please select person model",
   }),
   recordType: z.enum(

@@ -15,10 +15,7 @@ const AddRecords = () => {
         </button>
       </DialogTrigger>
 
-      <RecordFormFields
-        addingRecord={addingRecord}
-        setAddingRecord={setAddingRecord}
-      />
+      <RecordFormFields setAddingRecord={setAddingRecord} />
     </Dialog>
   );
 };

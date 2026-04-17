@@ -14,13 +14,11 @@ import { useCreateRecordMutation } from "@/lib/features/apis/RecordApi";
 import { useForm, Controller } from "react-hook-form";
 import { RecordForm, RecordSchema } from "@/lib/schemas/record.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Attachment } from "@/types/record";
+import { Attachment } from "@/types/record.interface";
 
 const RecordFormFields = ({
-  addingRecord,
   setAddingRecord,
 }: {
-  addingRecord: boolean;
   setAddingRecord: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [vitalsOpen, setVitalsOpen] = useState(false);
@@ -34,54 +32,32 @@ const RecordFormFields = ({
   } = useForm<RecordForm>({ resolver: zodResolver(RecordSchema) });
 
   const [createRecord, { data, error }] = useCreateRecordMutation();
-  console.log("API Response:", data);
-  console.log(error);
 
   const handleAddRecord = async (values: RecordForm) => {
-    const formData = new FormData();
-
-    // text fields
-    formData.append("patientId", values.patientId);
-    formData.append("personId", values.personId);
-    formData.append("personModel", values.personModel);
-    formData.append("recordType", values.recordType);
-    formData.append("complaints", values.complaints);
-    formData.append("diagnosis", values.diagnosis);
-    formData.append("treatment", values.treatments);
-
-    // vitals (object → stringify)
-    formData.append("vitals", JSON.stringify(values.vitals || {}));
-    formData.append("metadata", JSON.stringify(values.attachments));
-    console.log("Form Data Entries:");
-
-    // files
-    values.attachments?.forEach((att) => {
-      formData.append("attachments", att.file);
-    });
-
-    // send
-    const result = await createRecord(formData);
     try {
-      // const validatedData: RecordForm = RecordSchema.parse(values);
+      const formData = new FormData();
 
-      // const validatedValues = {
-      //   patientId: validatedData.patientId,
-      //   personId: validatedData.personId,
-      //   personModel: validatedData.personModel,
-      //   recordType: validatedData.recordType,
-      //   vitals: validatedData.vitals,
-      //   complaints: validatedData.complaints,
-      //   diagnosis: validatedData.diagnosis,
-      //   treatments: validatedData.treatment,
-      //   attachments: validatedData.attachments
-      //     ? [validatedData.attachments]
-      //     : undefined,
-      // };
-      // console.log(validatedValues);
+      const validatedData: RecordForm = RecordSchema.parse(values);
 
-      // if (!validatedValues) return;
+      // text fields
+      formData.append("patientId", validatedData.patientId);
+      formData.append("personId", validatedData.personId);
+      formData.append("personModel", validatedData.personModel);
+      formData.append("recordType", validatedData.recordType);
+      formData.append("complaints", validatedData.complaints);
+      formData.append("diagnosis", validatedData.diagnosis);
+      formData.append("treatment", validatedData.treatments);
 
-      // const result = await createRecord(values);
+      // vitals (object → stringify)
+      formData.append("vitals", JSON.stringify(validatedData.vitals || {}));
+
+      // files
+      validatedData.attachments?.forEach((att) => {
+        formData.append("attachments", att.file);
+      });
+      formData.append("metadata", JSON.stringify(validatedData.attachments));
+
+      const result = await createRecord(formData);
       console.log("Create Record Result:", result);
     } catch (error) {}
   };
@@ -149,8 +125,8 @@ const RecordFormFields = ({
                   <SelectValue placeholder="Select person model" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="patient">Patient</SelectItem>
-                  <SelectItem value="family">Family</SelectItem>
+                  <SelectItem value="Patient">Patient</SelectItem>
+                  <SelectItem value="FamilyMember">Family Member</SelectItem>
                 </SelectContent>
               </Select>
             )}

@@ -1,3 +1,5 @@
+import { RecordStatus, RecordType } from "./record.interface";
+
 export interface DashBoardStats {
   title: string;
   value: number;
@@ -55,7 +57,7 @@ export interface GetAllPatientsResponse {
       nextOfKin: string;
       emergencyContact: string;
       patientId: string;
-      status: string;
+      status: patientStatus;
       familyMembers: [
         {
           _id: string;
@@ -104,45 +106,6 @@ export interface CreateFamilyMemberResponse {
   success: boolean;
 }
 
-// export interface CreateRecordRequest {
-//   patientId: string;
-//   personId: string;
-//   personModel: "patient" | "family";
-//   vitals?: {
-//     bloodPressure?: string;
-//     pulse?: string;
-//     temperature?: string;
-//     weight?: string;
-//     height?: string;
-//     oxygen?: string;
-//   };
-//   recordType:
-//     | "consultation"
-//     | "lab_result"
-//     | "imaging"
-//     | "prescription"
-//     | "notes"
-//     | "procedure"
-//     | "other";
-//   complaints: string;
-//   treatments: string;
-//   diagnosis: string;
-//   attachments?: {
-//     fileName?: string;
-//     category?:
-//       | "consultation"
-//       | "lab_result"
-//       | "imaging"
-//       | "prescription"
-//       | "other"
-//       | "clinical_doc"
-//       | "admin_doc";
-//     fileType?: string;
-//     notes?: string;
-//     file?: File;
-//   }[];
-// }
-
 export interface CreateRecordResponse {
   message: string;
   success: boolean;
@@ -155,12 +118,21 @@ export interface GetAllRecordsResponse {
       _id: string;
       hospital: string;
       patientId: string;
-      personId: string;
-      recordType: string;
-      status: string;
+      personId: {
+        _id: string;
+        firstName: string;
+        lastName: string;
+      };
+      recordType: RecordType;
+      status: RecordStatus;
       complaints: string;
       diagnosis: string;
-      CreatedBy: string;
+      createdBy: {
+        _id: string;
+        firstName: string;
+        lastName: string;
+        email: string;
+      };
       personModel: string;
       attachments: [
         {

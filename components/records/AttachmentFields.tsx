@@ -11,7 +11,7 @@ import {
   Attachment,
   attachmentCategoryLabels,
   AttachmentCategory,
-} from "@/types/record";
+} from "@/types/record.interface";
 import { FieldErrors } from "react-hook-form";
 import { RecordForm } from "@/lib/schemas/record.schema";
 import { fileTypeOptions } from "@/data/fileOptions";

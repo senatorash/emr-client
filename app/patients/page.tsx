@@ -19,7 +19,7 @@ const Patient = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState<number>(1);
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const limit = 10;
+  const limit = 3;
 
   const { data, isLoading } = useGetAllPatientsQuery({
     page,
@@ -103,14 +103,14 @@ const Patient = () => {
         </motion.div>
 
         <PatientTable
-          patient={data?.data}
+          patient={data?.data || []}
           page={page}
           setPage={setPage}
           pagination={
             data?.pagination ?? {
               total: 0,
               page: 1,
-              limit: 10,
+              limit: 3,
               totalPages: 1,
             }
           }
