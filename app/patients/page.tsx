@@ -31,7 +31,7 @@ const Patient = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setDebouncedSearch(searchQuery);
-      setPage(1); // Reset to first page on new search
+      setPage(1);
     }, 500);
 
     return () => clearTimeout(timeout);
@@ -78,12 +78,7 @@ const Patient = () => {
                 setDebouncedSearch?.(
                   v === "all"
                     ? ""
-                    : (v as
-                        | ""
-                        | "active"
-                        | "inactive"
-                        | "discharged"
-                        | "deceased"),
+                    : (v as "active" | "inactive" | "discharged" | "deceased"),
                 )
               }
             >

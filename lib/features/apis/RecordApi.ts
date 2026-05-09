@@ -3,6 +3,7 @@ import { baseQueryWithReauth } from "../slices/apiSlice";
 import {
   CreateRecordResponse,
   GetAllRecordsResponse,
+  RecordStatsResponse,
 } from "@/types/apiInterfaces";
 
 export const recordApis = createApi({
@@ -16,6 +17,7 @@ export const recordApis = createApi({
         method: "POST",
         body: formData,
       }),
+      invalidatesTags: ["Records"],
     }),
 
     getAllRecords: builder.query<
@@ -26,8 +28,21 @@ export const recordApis = createApi({
         url: `records/all?page=${page}&limit=${limit}${search ? `&search=${search}` : ""}`,
         method: "GET",
       }),
+      providesTags: ["Records"],
+    }),
+
+    recordStats: builder.query<RecordStatsResponse, void>({
+      query: () => ({
+        url: "dashboard/record-stats",
+        method: "GET",
+      }),
+      providesTags: ["Records"],
     }),
   }),
 });
 
-export const { useCreateRecordMutation, useGetAllRecordsQuery } = recordApis;
+export const {
+  useCreateRecordMutation,
+  useGetAllRecordsQuery,
+  useRecordStatsQuery,
+} = recordApis;

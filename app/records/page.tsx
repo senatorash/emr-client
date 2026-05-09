@@ -16,14 +16,13 @@ import { useGetAllRecordsQuery } from "@/lib/features/apis/RecordApi";
 import { recordType } from "@/data/recordType";
 import { statusType } from "@/data/statusType";
 import RecordCard from "@/components/records/RecordCard";
+import RecordStats from "@/components/records/RecordStats";
 
 const RecordsPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [typeFilter, setTypeFilter] = useState<string>("all");
-  const [statusFilter, setStatusFilter] = useState<string>("all");
   const [page, setPage] = useState<number>(1);
   const [debounceSearch, setDebounceSearch] = useState("");
-  const limit = 10;
+  const limit = 15;
 
   const { data, isLoading } = useGetAllRecordsQuery({
     page,
@@ -38,7 +37,7 @@ const RecordsPage = () => {
     }, 500);
 
     return () => clearTimeout(timeout);
-  }, []);
+  }, [searchQuery]);
 
   return (
     <DashBoardLayout>
@@ -59,64 +58,7 @@ const RecordsPage = () => {
         </motion.div>
 
         {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          {/* {isLoading ? (
-            <StatsCardsSkeleton />
-          ) : (
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">
-                    Total Records
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="font-display text-2xl font-bold">
-                    {mockRecords.length}
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">
-                    Pending Review
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="font-display text-2xl font-bold text-warning">
-                    {mockRecords.filter((r) => r.status === "pending").length}
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">
-                    This Week
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="font-display text-2xl font-bold">12</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">
-                    Lab Results
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="font-display text-2xl font-bold text-accent">
-                    {mockRecords.filter((r) => r.type === "lab_result").length}
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          )} */}
-        </motion.div>
+        <RecordStats />
 
         {/* Filters */}
         <motion.div
@@ -136,7 +78,22 @@ const RecordsPage = () => {
             />
           </div>
           <div className="flex gap-2">
-            <Select value={typeFilter} onValueChange={setTypeFilter}>
+            <Select
+              defaultValue="all"
+              onValueChange={(v) =>
+                setDebounceSearch?.(
+                  v === "all"
+                    ? ""
+                    : (v as
+                        | "lab_result"
+                        | "consultation"
+                        | "imaging"
+                        | "prescription"
+                        | "notes"
+                        | "procedure"),
+                )
+              }
+            >
               <SelectTrigger className="w-40">
                 <LuFilter className="mr-2 h-4 w-4" />
                 <SelectValue />
@@ -151,7 +108,14 @@ const RecordsPage = () => {
                 })}
               </SelectContent>
             </Select>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <Select
+              defaultValue="all"
+              onValueChange={(v) =>
+                setDebounceSearch?.(
+                  v === "all" ? "" : (v as "pending" | "reviewed" | "complete"),
+                )
+              }
+            >
               <SelectTrigger className="w-36">
                 <SelectValue />
               </SelectTrigger>

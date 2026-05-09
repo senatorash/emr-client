@@ -34,20 +34,18 @@ const AddPatient = () => {
   const handleAddPatient = async (values: PatientForm) => {
     setIsAddingPatient(false);
     try {
-      const validatedData: PatientForm = PatientSchema.parse(values);
-
       const ValidatedValues = {
-        firstName: validatedData.firstName,
-        lastName: validatedData.lastName,
-        dob: validatedData.dob,
-        gender: validatedData.gender,
-        phone: validatedData.phone,
-        email: validatedData.email,
-        nin: validatedData.nin,
-        address: validatedData.address,
-        emergencyContact: validatedData.emergencyContact,
-        nextOfKin: validatedData.nextOfKin,
-        bloodGroup: validatedData.bloodGroup || "unknown",
+        firstName: values.firstName,
+        lastName: values.lastName,
+        dob: values.dob,
+        gender: values.gender,
+        phone: values.phone,
+        email: values.email,
+        nin: values.nin,
+        address: values.address,
+        emergencyContact: values.emergencyContact,
+        nextOfKin: values.nextOfKin,
+        bloodGroup: values.bloodGroup || "unknown",
       };
       if (!ValidatedValues) {
         return;

@@ -166,3 +166,14 @@ export interface GetAllRecordsResponse {
     totalPages: number;
   };
 }
+
+interface RecordStats {
+  title: string;
+  value: number;
+}
+
+export interface RecordStatsResponse {
+  success: boolean;
+  role: string;
+  data: { stats: RecordStats[] };
+}

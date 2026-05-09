@@ -5,6 +5,7 @@ import { dashBoardApis } from "./features/apis/DashBoardApis";
 import { patientApis } from "./features/apis/PatientApi";
 import { staffApis } from "./features/apis/StaffApi";
 import { recordApis } from "./features/apis/RecordApi";
+import { hospitalApis } from "./features/apis/HospitalApi";
 
 export const store = () => {
   return configureStore({
@@ -14,6 +15,7 @@ export const store = () => {
       [patientApis.reducerPath]: patientApis.reducer,
       [staffApis.reducerPath]: staffApis.reducer,
       [recordApis.reducerPath]: recordApis.reducer,
+      [hospitalApis.reducerPath]: hospitalApis.reducer,
       userState: userSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
@@ -22,7 +24,8 @@ export const store = () => {
         .concat(dashBoardApis.middleware)
         .concat(patientApis.middleware)
         .concat(staffApis.middleware)
-        .concat(recordApis.middleware),
+        .concat(recordApis.middleware)
+        .concat(hospitalApis.middleware),
   });
 };
 

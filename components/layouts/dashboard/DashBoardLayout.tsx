@@ -3,9 +3,9 @@ import DarkModeSwitch from "@/components/ui/DarkModeSwitch";
 import { LuSearch, LuBell } from "react-icons/lu";
 import { useAppSelector } from "@/lib/hook";
 import ProtectedRoute from "@/components/auth/ProtectedRoutes";
+
 const DashBoardLayout = ({ children }: { children: React.ReactNode }) => {
   const user = useAppSelector((state) => state.userState.user);
-
   return (
     <ProtectedRoute>
       <div className="flex min-h-screen w-full bg-background">

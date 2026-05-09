@@ -74,7 +74,7 @@ const StaffPage = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="font-display text-3xl font-bold">
+                  <p className="font-display text-3xl font-bold text-green-600">
                     {data?.data?.stats[0]?.value || 0}
                   </p>
                 </CardContent>
@@ -87,7 +87,7 @@ const StaffPage = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="font-display text-3xl font-bold">
+                  <p className="font-display text-3xl font-bold text-green-600">
                     {data?.data?.stats[1]?.value || 0}
                   </p>
                 </CardContent>
@@ -100,7 +100,7 @@ const StaffPage = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="font-display text-3xl font-bold">
+                  <p className="font-display text-3xl font-bold text-green-600">
                     {data?.data?.stats[2]?.value || 0}
                   </p>
                 </CardContent>

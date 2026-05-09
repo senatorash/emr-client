@@ -16,6 +16,8 @@ export default function PathnameWrapper({
     "/patients",
     "/staff",
     "/records",
+    "/register",
+    "/settings",
   ];
 
   const hideLayout = noHeaderFooterRoutes.includes(pathname);

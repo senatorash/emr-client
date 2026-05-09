@@ -15,10 +15,13 @@ import { useForm, Controller } from "react-hook-form";
 import { RecordForm, RecordSchema } from "@/lib/schemas/record.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Attachment } from "@/types/record.interface";
+import { toast } from "sonner";
 
 const RecordFormFields = ({
+  addingRecord,
   setAddingRecord,
 }: {
+  addingRecord: boolean;
   setAddingRecord: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [vitalsOpen, setVitalsOpen] = useState(false);
@@ -31,37 +34,48 @@ const RecordFormFields = ({
     reset,
   } = useForm<RecordForm>({ resolver: zodResolver(RecordSchema) });
 
-  const [createRecord, { data, error }] = useCreateRecordMutation();
+  const [createRecord] = useCreateRecordMutation();
 
   const handleAddRecord = async (values: RecordForm) => {
+    setAddingRecord(false);
     try {
       const formData = new FormData();
 
-      const validatedData: RecordForm = RecordSchema.parse(values);
-
       // text fields
-      formData.append("patientId", validatedData.patientId);
-      formData.append("personId", validatedData.personId);
-      formData.append("personModel", validatedData.personModel);
-      formData.append("recordType", validatedData.recordType);
-      formData.append("complaints", validatedData.complaints);
-      formData.append("diagnosis", validatedData.diagnosis);
-      formData.append("treatment", validatedData.treatments);
+      formData.append("patientId", values.patientId);
+      formData.append("personId", values.personId);
+      formData.append("personModel", values.personModel);
+      formData.append("recordType", values.recordType);
+      formData.append("complaints", values.complaints);
+      formData.append("diagnosis", values.diagnosis);
+      formData.append("treatment", values.treatments);
 
       // vitals (object → stringify)
-      formData.append("vitals", JSON.stringify(validatedData.vitals || {}));
+      formData.append("vitals", JSON.stringify(values.vitals || {}));
 
       // files
-      validatedData.attachments?.forEach((att) => {
+      values.attachments?.forEach((att) => {
         formData.append("attachments", att.file);
       });
-      formData.append("metadata", JSON.stringify(validatedData.attachments));
+      formData.append("metadata", JSON.stringify(values.attachments));
 
       const result = await createRecord(formData);
-      console.log("Create Record Result:", result);
-    } catch (error) {}
+
+      if (result.data?.success) {
+        toast.success(result.data.message);
+        reset();
+      } else {
+        const errorMessage =
+          (result.error &&
+            "data" in result.error &&
+            (result.error.data as any)?.message) ||
+          "Failed to add patient";
+        toast.error(errorMessage);
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred.");
+    }
   };
-  // console.log(handleAddRecord);
 
   return (
     <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-lg">
@@ -246,9 +260,7 @@ const RecordFormFields = ({
           Cancel
         </button>
         <button
-          onClick={handleSubmit(handleAddRecord, (errors) =>
-            console.log("VALIDATION ERRORS:", errors),
-          )}
+          onClick={handleSubmit(handleAddRecord)}
           className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary p-2 px-4 text-sm font-medium whitespace-nowrap text-primary-foreground shadow-sm ring-offset-background transition-all duration-200 hover:bg-primary/90 hover:shadow-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
         >
           Add Record
