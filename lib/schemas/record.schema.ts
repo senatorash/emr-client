@@ -58,7 +58,6 @@ export const RecordSchema = z.object({
           message: "Invalid file type. Only PDF, PNG, and JPEG are allowed.",
         }),
         notes: z.string().trim(),
-        // If you store the actual File object in your draft:
         file: z.instanceof(File).refine((file) => file.size <= MAX_FILE_SIZE, {
           message: "File size must be less than 5MB.",
         }),
@@ -68,3 +67,8 @@ export const RecordSchema = z.object({
 });
 
 export type RecordForm = z.infer<typeof RecordSchema>;
+
+export const SingleAttachmentSchema =
+  RecordSchema.shape.attachments.unwrap().element;
+
+export type SingleAttachment = z.infer<typeof SingleAttachmentSchema>;

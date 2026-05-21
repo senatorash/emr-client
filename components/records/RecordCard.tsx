@@ -43,6 +43,7 @@ const RecordCard = ({
   setPage,
   pagination,
   isLoading,
+  setViewRecord,
 }: RecordProps) => {
   return (
     <motion.div
@@ -85,8 +86,9 @@ const RecordCard = ({
                           </button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          {/* onClick={() => setViewRecord(record)} */}
-                          <DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => setViewRecord(record)}
+                          >
                             <LuEye className="mr-2 h-4 w-4 dark:hover:text-[#0000]" />
                             View
                           </DropdownMenuItem>

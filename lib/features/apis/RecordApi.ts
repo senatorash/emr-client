@@ -4,7 +4,7 @@ import {
   CreateRecordResponse,
   GetAllRecordsResponse,
   RecordStatsResponse,
-} from "@/types/apiInterfaces";
+} from "@/types/api/record";
 
 export const recordApis = createApi({
   reducerPath: "recordApis",

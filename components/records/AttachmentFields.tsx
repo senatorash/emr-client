@@ -13,8 +13,12 @@ import {
   AttachmentCategory,
 } from "@/types/record.interface";
 import { FieldErrors } from "react-hook-form";
-import { RecordForm } from "@/lib/schemas/record.schema";
+import {
+  RecordForm,
+  SingleAttachmentSchema,
+} from "@/lib/schemas/record.schema";
 import { fileTypeOptions } from "@/data/fileOptions";
+import { SingleAttachment } from "@/lib/schemas/record.schema";
 
 interface AttachmentFieldsProps {
   attachments: Attachment[];
@@ -44,7 +48,28 @@ const AttachmentFields = ({
     file: null,
   });
 
+  const [draftErrors, setDraftErrors] = useState<
+    Partial<Record<keyof SingleAttachment, string>>
+  >({});
+
+  // function to add attachment from draft to attachments list
   const addAttachment = () => {
+    // Validate the draft using Zod schema
+    const result = SingleAttachmentSchema.safeParse(draft);
+
+    if (!result.success) {
+      // Convert Zod errors to a flat object
+      const fieldErrors: Partial<Record<keyof SingleAttachment, string>> = {};
+      result.error.issues.forEach((err) => {
+        const field = err.path[0] as keyof SingleAttachment;
+        fieldErrors[field] = err.message;
+      });
+      setDraftErrors(fieldErrors);
+      return;
+    }
+
+    setDraftErrors({});
+
     if (!draft.fileName.trim()) return;
 
     const newAttachment: Attachment = {
@@ -66,6 +91,7 @@ const AttachmentFields = ({
     setIsAdding(false);
   };
 
+  // function to remove attachment by id
   const removeAttachment = (id: string) => {
     onChange(attachments.filter((a) => a.id !== id));
   };
@@ -90,6 +116,7 @@ const AttachmentFields = ({
         )}
       </div>
 
+      {/* Attachment list  */}
       {attachments.length > 0 && (
         <div className="space-y-2">
           {attachments.map((att) => {
@@ -125,9 +152,11 @@ const AttachmentFields = ({
         </div>
       )}
 
+      {/* Attachment Form */}
       {isAdding && (
         <div className="space-y-2 rounded-lg border border-border bg-muted/30 p-2">
           <div className="flex items-center gap-3 p-2">
+            {/* File Upload Label */}
             <label
               className="block cursor-pointer rounded-md bg-primary px-4 py-2 text-sm leading-none font-medium text-accent-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               htmlFor="fileUpload"
@@ -139,7 +168,6 @@ const AttachmentFields = ({
                 type="file"
                 onChange={(e) => {
                   const file = e.target.files?.[0];
-                  console.log("Selected file:", file);
                   if (file) {
                     setDraft((prev) => ({
                       ...prev,
@@ -156,13 +184,9 @@ const AttachmentFields = ({
               {draft.fileName}
             </span>
           </div>
-          {errors.attachments?.[2]?.fileName && (
-            <p className="text-xs text-red-600">
-              {errors.attachments?.[2]?.fileName.message}
-            </p>
-          )}
 
           <div className="mt-2 grid grid-cols-2 gap-3">
+            {/* Category Select */}
             <div>
               <Select
                 value={draft.category}
@@ -185,6 +209,7 @@ const AttachmentFields = ({
               </Select>
             </div>
 
+            {/* File Type Select */}
             <div>
               <Select
                 value={draft.fileType}
@@ -204,9 +229,9 @@ const AttachmentFields = ({
                 </SelectContent>
               </Select>
 
-              {errors.attachments?.[2]?.fileType && (
-                <p className="text-xs text-red-600">
-                  {errors.attachments?.[2]?.fileType.message}
+              {draftErrors.fileType && (
+                <p className="text-xs font-[10px] text-red-600">
+                  {draftErrors.fileType}
                 </p>
               )}
             </div>

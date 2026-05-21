@@ -32,7 +32,10 @@ const RecordFormFields = ({
     control,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<RecordForm>({ resolver: zodResolver(RecordSchema) });
+  } = useForm<RecordForm>({
+    resolver: zodResolver(RecordSchema),
+    mode: "onChange",
+  });
 
   const [createRecord] = useCreateRecordMutation();
 

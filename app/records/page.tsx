@@ -17,11 +17,14 @@ import { recordType } from "@/data/recordType";
 import { statusType } from "@/data/statusType";
 import RecordCard from "@/components/records/RecordCard";
 import RecordStats from "@/components/records/RecordStats";
+import { ViewRecordDialog } from "@/components/records/ViewRecords";
+import { Records } from "@/types/record.interface";
 
 const RecordsPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState<number>(1);
   const [debounceSearch, setDebounceSearch] = useState("");
+  const [viewRecord, setViewRecord] = useState<Records | null>(null);
   const limit = 15;
 
   const { data, isLoading } = useGetAllRecordsQuery({
@@ -141,8 +144,15 @@ const RecordsPage = () => {
             data?.pagination ?? { total: 0, page: 1, limit: 10, totalPages: 1 }
           }
           isLoading={isLoading}
+          setViewRecord={setViewRecord}
         />
       </div>
+
+      <ViewRecordDialog
+        record={viewRecord}
+        open={!!viewRecord}
+        onOpenChange={(o) => !o && setViewRecord(null)}
+      />
     </DashBoardLayout>
   );
 };

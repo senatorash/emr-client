@@ -61,6 +61,15 @@ export interface Records {
   recordType: RecordType;
   status: RecordStatus;
   complaints: string;
+  treatments: string;
+  vitals: {
+    bloodPressure?: string;
+    pulse?: string;
+    temperature?: string;
+    weight?: string;
+    height?: string;
+    oxygen?: string;
+  };
   diagnosis: string;
   createdBy: {
     _id: string;
@@ -73,7 +82,8 @@ export interface Records {
     fileName: string;
     fileUrl: string;
     fileType: string;
-    category: string;
+    category: AttachmentCategory;
+    notes: string;
     uploadedBy: string;
     uploadedAt: string;
     _id: string;
@@ -97,4 +107,14 @@ export interface RecordProps {
   setPage: React.Dispatch<React.SetStateAction<number>>;
   pagination: Pagination;
   isLoading: boolean;
+  setViewRecord: React.Dispatch<React.SetStateAction<Records | null>>;
 }
+
+export const typeLabels: Record<RecordType, string> = {
+  consultation: "Consultation",
+  lab_result: "Lab Result",
+  prescription: "Prescription",
+  procedure: "Procedure",
+  imaging: "Imaging",
+  notes: "Clinical Notes",
+};
