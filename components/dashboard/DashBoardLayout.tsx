@@ -1,4 +1,4 @@
-import AppSideBar from "@/components/layouts/dashboard/AppSideBar";
+import AppSideBar from "@/components/dashboard/AppSideBar";
 import DarkModeSwitch from "@/components/ui/DarkModeSwitch";
 import { LuSearch, LuBell } from "react-icons/lu";
 import { useAppSelector } from "@/lib/hook";

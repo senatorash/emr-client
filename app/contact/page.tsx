@@ -1,17 +1,7 @@
-"use client";
-
-import HeroSection from "@/components/contact/HeroSection";
-import ContactInfoCards from "@/components/contact/ContactInfoCards";
+import Contact from "@/components/contact/Contact";
 
 const ContactPage = () => {
-  return (
-    <div className="min-h-screen bg-background">
-      <HeroSection />
-      <ContactInfoCards />
-    </div>
-  );
-  {
-    /* Contact Info Cards */
-  }
+  return <Contact />;
 };
+
 export default ContactPage;

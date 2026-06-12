@@ -186,12 +186,11 @@ export function ViewRecordDialog({
                 <h4 className="mb-2 text-sm font-semibold">Attachments</h4>
                 <div className="space-y-2">
                   {record.attachments.map((att) => (
-                    <div className="flex items-center justify-center gap-2 rounded-lg bg-muted/50 p-2.5">
-                      {" "}
-                      <div
-                        key={att._id}
-                        className="flex items-start gap-2 text-sm"
-                      >
+                    <div
+                      key={att._id}
+                      className="flex items-center justify-center gap-2 rounded-lg bg-muted/50 p-2.5"
+                    >
+                      <div className="flex items-start gap-2 text-sm">
                         <Paperclip className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
                         <div className="min-w-0 flex-1">
                           <p className="truncate font-medium">{att.fileName}</p>

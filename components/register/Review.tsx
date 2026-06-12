@@ -88,7 +88,7 @@ const Review = ({
               className="flex-1"
               size="lg"
               onClick={handleSubmit(handleAddHospital)}
-              disabled={isLoading}
+              // disabled={isLoading}
             >
               {isLoading ? (
                 <>

@@ -1,18 +1,7 @@
-"use client";
-
-import AddFeatures from "@/components/features/AddFeatures";
-import CtaSection from "@/components/features/CtaSection";
-import HeroSection from "@/components/features/HeroSection";
-import MainSection from "@/components/features/MainSection";
+import Features from "@/components/features/Features";
 
 const FeaturesPage = () => {
-  return (
-    <div className="min-h-screen bg-background">
-      <HeroSection />
-      <MainSection />
-      <AddFeatures />
-      <CtaSection />
-    </div>
-  );
+  return <Features />;
 };
+
 export default FeaturesPage;

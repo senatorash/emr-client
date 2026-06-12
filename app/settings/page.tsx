@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import DashBoardLayout from "@/components/layouts/dashboard/DashBoardLayout";
+import DashBoardLayout from "@/components/dashboard/DashBoardLayout";
 import {
   Card,
   CardContent,

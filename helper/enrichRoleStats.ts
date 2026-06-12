@@ -1,4 +1,4 @@
-import { statVisualConfig } from "@/components/layouts/dashboard/statsItem";
+import { statVisualConfig } from "@/components/dashboard/statsItem";
 import { LuFileText } from "react-icons/lu";
 
 export const enrichRoleStats = (
